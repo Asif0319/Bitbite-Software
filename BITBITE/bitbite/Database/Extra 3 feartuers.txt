@@ -1,0 +1,67 @@
+USE bitbite_db;
+
+CREATE TABLE IF NOT EXISTS nutritionist_hires (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    nutritionist_name VARCHAR(150) NOT NULL,
+    specialization VARCHAR(150),
+    experience_years INT DEFAULT 0,
+    consultation_type VARCHAR(100) DEFAULT 'Online',
+    session_date DATE,
+    session_time TIME,
+    fee DECIMAL(10,2) DEFAULT 0,
+    status VARCHAR(50) DEFAULT 'Pending',
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS yoga_coach_hires (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    coach_name VARCHAR(150) NOT NULL,
+    yoga_type VARCHAR(150),
+    experience_years INT DEFAULT 0,
+    session_type VARCHAR(100) DEFAULT 'Online',
+    session_date DATE,
+    session_time TIME,
+    fee DECIMAL(10,2) DEFAULT 0,
+    status VARCHAR(50) DEFAULT 'Pending',
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS research_hub_articles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    category VARCHAR(100),
+    author_name VARCHAR(150),
+    article_summary TEXT,
+    article_content LONGTEXT,
+    image_url VARCHAR(255),
+    reading_time VARCHAR(50),
+    published_date DATE DEFAULT (CURRENT_DATE),
+    is_featured BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO nutritionist_hires
+(user_id, nutritionist_name, specialization, experience_years, consultation_type, session_date, session_time, fee, status, notes)
+VALUES
+(1, 'Dr. Nusrat Jahan', 'Weight Loss Nutrition', 5, 'Online', CURDATE(), '18:00:00', 800, 'Pending', 'Initial nutrition consultation'),
+(1, 'Tanvir Ahmed', 'Sports Nutrition', 4, 'Offline', DATE_ADD(CURDATE(), INTERVAL 2 DAY), '17:30:00', 1000, 'Confirmed', 'Muscle gain meal plan support');
+
+INSERT INTO yoga_coach_hires
+(user_id, coach_name, yoga_type, experience_years, session_type, session_date, session_time, fee, status, notes)
+VALUES
+(1, 'Sadia Rahman', 'Beginner Yoga', 3, 'Online', CURDATE(), '07:00:00', 500, 'Pending', 'Morning beginner yoga session'),
+(1, 'Mahmud Hasan', 'Weight Loss Yoga', 6, 'Offline', DATE_ADD(CURDATE(), INTERVAL 3 DAY), '08:00:00', 700, 'Confirmed', 'Fat loss and flexibility session');
+
+INSERT INTO research_hub_articles
+(title, category, author_name, article_summary, article_content, image_url, reading_time, is_featured)
+VALUES
+('Benefits of Drinking Enough Water Daily', 'Hydration', 'BitBite Research Team', 'Learn how proper hydration improves metabolism, energy and focus.', 'Water plays an important role in digestion, metabolism, temperature control and physical performance. Drinking enough water daily helps reduce fatigue and supports weight management.', 'images/hydration.jpg', '4 min read', TRUE),
+('How Protein Helps in Weight Loss', 'Nutrition', 'BitBite Research Team', 'Protein helps control hunger and maintain muscle during fat loss.', 'Protein is one of the most important nutrients for weight loss. It increases fullness, supports muscle repair and helps the body burn more calories during digestion.', 'images/protein.jpg', '5 min read', TRUE),
+('Why Sleep Matters for Fitness Progress', 'Sleep Health', 'BitBite Research Team', 'Good sleep improves recovery, hormones and daily energy.', 'Sleep affects hunger hormones, muscle recovery and mental focus. Poor sleep can increase cravings and reduce workout performance.', 'images/sleep.jpg', '6 min read', FALSE),
+('Simple Yoga for Stress Relief', 'Yoga', 'BitBite Research Team', 'Basic yoga practices can reduce stress and improve flexibility.', 'Yoga improves breathing, flexibility, balance and mental calmness. Regular yoga can support both physical and emotional health.', 'images/yoga.jpg', '5 min read', FALSE);
